@@ -13,7 +13,7 @@ Generate files in the background and allow users to pick them up afterwards usin
 Documentation
 -------------
 
-The full documentation is at https://dj-bgfiles.readthedocs.org.
+The "full" documentation is at https://dj-bgfiles.readthedocs.org.
 
 Quickstart
 ----------
@@ -232,7 +232,7 @@ Here's our export handler class::
             if not form.is_valid():
                 # If the form is invalid we raise an exception so our view knows about it and can show the errors.
                 # If the form became invalid while we're offline... well, that shouldn't happen.
-                raise InvalidForm(form)
+                raise InvalidForm(form=form)
             # Valid form: apply our filters and return our events
             return form.apply_filters(LoginEvent.objects.all())
 
@@ -417,17 +417,4 @@ Or::
 
         def get_signer(self):
             return my_signer
-
-
-Running Tests
--------------
-
-Does the code actually work?
-
-::
-
-    source <YOURVIRTUALENV>/bin/activate
-    (myenv) $ pip install -r requirements-test.txt
-    (myenv) $ pip install Django>=1.8
-    (myenv) $ python runtests.py
 
