@@ -48,7 +48,7 @@ setup(
     ],
     license="BSD",
     zip_safe=False,
-    keywords='dj-bgfiles',
+    keywords=['dj-bgfiles', 'django'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
