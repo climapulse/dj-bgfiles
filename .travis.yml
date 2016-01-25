@@ -1,0 +1,17 @@
+language: python
+env:
+  - DJANGO_VERSION="1.8"
+  - DJANGO_VERSION="1.9"
+python:
+  - "3.5"
+  - "3.4"
+  - "2.7"
+before_install:
+  - pip install codecov
+install:
+  - pip install -r requirements-test.txt
+  - pip install -q Django==$DJANGO_VERSION
+  - python setup.py -q install
+script: coverage run --source bgfiles runtests.py
+after_success:
+  - codecov
