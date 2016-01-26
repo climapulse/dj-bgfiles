@@ -1,5 +1,8 @@
 include *.rst *.txt LICENSE tox.ini .travis.yml Makefile .coveragerc runtests.py
-recursive-include tests bgfiles *.py
+recursive-include tests *.py
+recursive-include bgfiles *.py
 recursive-include docs *.rst
+recursive-include docs Makefile
 recursive-include docs *.py
+recursive-include docs *.bat
 prune docs/_build
