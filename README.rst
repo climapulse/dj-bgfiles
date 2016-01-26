@@ -18,7 +18,7 @@ The "full" documentation is at https://dj-bgfiles.readthedocs.org.
 Quickstart
 ----------
 
-Install dj-bgfiles::
+First ensure you're using Django 1.8.4 or up. Next, install dj-bgfiles::
 
     pip install dj-bgfiles
 
