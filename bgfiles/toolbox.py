@@ -13,7 +13,7 @@ from django.core.files import File
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.signing import dumps, loads, BadSignature
 from django.http import HttpResponse, Http404
-from django.utils import timezone
+from django.utils import timezone, translation
 import json
 from .http import create_content_disposition
 from .models import FileRequest
@@ -87,7 +87,8 @@ def get_default_signer():
     return signer
 
 
-def add_request(criteria='', file_type='', requester=None, content_type='', description=''):
+def add_request(criteria='', file_type='', requester=None, content_type='', description='', language=None,
+                tz=None):
     """Add a file request.
 
     :param criteria: the criteria that should be used to compose the file
@@ -97,12 +98,21 @@ def add_request(criteria='', file_type='', requester=None, content_type='', desc
     :param requester: the instance of the user performing the requester
     :param content_type: the content or mime type of the resulting file
     :type content_type: str
-    :param content_type: an optional description you can use to remind the user
-    :type content_type: str
+    :param description: an optional description you can use to remind the user
+    :type description: str
+    :param language: the language to store; will be retrieved from ``django.utils.translation`` if None
+    :type language: str
+    :param tz: the timezone to store; will be retrieved from ``django.utils.timezone`` if None
+    :type tz: str
     :return: the file request
     """
+    if language is None:
+        language = translation.get_language()
+    if tz is None:
+        tz = timezone.get_current_timezone_name()
     return FileRequest.objects.create(criteria=criteria, file_type=file_type, requester=requester,
-                                      content_type=content_type, description=description, requested_at=timezone.now())
+                                      content_type=content_type, description=description, requested_at=timezone.now(),
+                                      requester_language=language, requester_timezone=tz)
 
 
 def attach_file(request, contents, filename=None, content_type=None, size=None):

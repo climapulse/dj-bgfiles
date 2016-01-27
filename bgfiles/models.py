@@ -87,6 +87,8 @@ class FileRequest(models.Model):
     size = models.BigIntegerField(blank=True, null=True)
     requester = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='requested_downloads',
                                   on_delete=models.CASCADE)
+    requester_language = models.CharField(max_length=10, blank=True)
+    requester_timezone = models.CharField(max_length=200, blank=True)
     requested_at = models.DateTimeField(db_index=True)
     finished_at = models.DateTimeField(blank=True, null=True, db_index=True)
     expires_at = models.DateTimeField(blank=True, null=True)

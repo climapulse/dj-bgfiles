@@ -46,7 +46,7 @@ docs:
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
 
-release: clean
+release: sdist
 	twine upload dist/dj*
 
 sdist: clean

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, division, absolute_import
+from contextlib import contextmanager
+from django.utils import translation, timezone
 
 
 handlers = {}
@@ -29,5 +31,14 @@ def dispatch(file_request_id):
     if request.finished_at:
         return False
     handler_class = handlers[request.file_type]
-    handler_class.handle(request)
+    translation_ctx = translation.override if request.requester_language else dummy
+    timezone_ctx = timezone.override if request.requester_timezone else dummy
+    with translation_ctx(request.requester_language):
+        with timezone_ctx(request.requester_timezone):
+            handler_class.handle(request)
     return True
+
+
+@contextmanager
+def dummy(s):
+    yield s
