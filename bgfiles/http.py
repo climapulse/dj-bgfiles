@@ -28,7 +28,7 @@ def create_content_disposition(filename, attachment=True):
     # If ascii is set, we're dealing with a plain ascii string and no further processing is needed.
     if not ascii:
         utf8 = attempt_decode(cleaned, 'utf-8')
-        if not utf8:
+        if utf8:
             # So the filename is utf-8 encoded; now try to get a sane ascii version for older browsers
             try:
                 ascii = unicodedata.normalize('NFKD', utf8).encode('ascii', 'ignore')
@@ -37,7 +37,7 @@ def create_content_disposition(filename, attachment=True):
     # The string's not ascii nor utf-8. We can only hope for the best.
     if not ascii:
         ascii = cleaned
-    ascii = force_text(ascii)
+    ascii = force_text(ascii, encoding='ascii')
     format_params = {
         'serve_type': 'attachment' if attachment else 'inline',
         'ascii': ascii
