@@ -6,22 +6,7 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from uuid import uuid4
 import time
-
-
-def get_storage():
-    """Get the configured storage.
-
-    :return: the configured storage or None, to force the use of Django's default storage
-    """
-    return getattr(settings, 'BG_FILES_STORAGE', None)
-
-
-def get_upload_to():
-    """Get the value for FileRequest's ``upload_to``.
-
-    :return: the configured value or an empty string
-    """
-    return getattr(settings, 'BG_FILES_UPLOAD_TO', '')
+from .fields import ConfigurableFileField
 
 
 class FileRequestManager(models.Manager):
@@ -78,8 +63,7 @@ class FileRequestManager(models.Manager):
 class FileRequest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4)
     criteria = models.TextField(blank=True)
-    filehandle = models.FileField(storage=get_storage(), upload_to=get_upload_to(), blank=True,
-                                  null=True)
+    filehandle = ConfigurableFileField(blank=True, null=True)
     filename = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
     file_type = models.CharField(max_length=100, blank=True, db_index=True)

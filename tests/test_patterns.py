@@ -4,7 +4,7 @@ from bgfiles.models import FileRequest
 from bgfiles.patterns import (Dataset, InvalidCriteria, InvalidForm, QueryDictCriteriaWithRequester,
                               QueryDictCriteria, Criteria, SimplePattern)
 from django.contrib.auth.models import User
-from django.test import RequestFactory, SimpleTestCase, TestCase
+from django.test import RequestFactory, SimpleTestCase
 
 
 class VerifyExceptionsTest(SimpleTestCase):
