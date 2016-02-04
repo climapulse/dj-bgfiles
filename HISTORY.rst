@@ -3,7 +3,4 @@
 History
 -------
 
-0.1.0 (2015-10-02)
-++++++++++++++++++
-
-* First release on PyPI.
+History is not collected yet. This is alpha software.
