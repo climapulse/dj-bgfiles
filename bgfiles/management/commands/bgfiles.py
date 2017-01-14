@@ -17,16 +17,16 @@ DEFAULT_LEEWAY = 3600
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        parser.add_argument('action', type='choices', choices=[ACTION_PROCESS, ACTION_CLEAN],
+        parser.add_argument('action', choices=[ACTION_PROCESS, ACTION_CLEAN],
                             help='Either process outstanding requests or clean expired requests. Note that processing '
                                  'requires the usage of the registry')
-        parser.add_argument('--sleep', type='float',
+        parser.add_argument('--sleep', type=float,
                             help='Optional (floating point) sleep in seconds between handling requests')
-        parser.add_argument('--timeout', type='int',
+        parser.add_argument('--timeout', type=int,
                             help='Maximum time to run in seconds; this is only an approximation.')
-        parser.add_argument('--items', type='int', help='Maximum number of items to process')
-        parser.add_argument('--leeway', type='int', help='Number of seconds leeway to allow for expired files. This '
-                                                         'should prevent interrupting last-minute file downloads',
+        parser.add_argument('--items', type=int, help='Maximum number of items to process')
+        parser.add_argument('--leeway', type=int, help='Number of seconds leeway to allow for expired files. This '
+                                                       'should prevent interrupting last-minute file downloads',
                             default=DEFAULT_LEEWAY)
 
     def handle(self, *args, **options):
@@ -38,7 +38,7 @@ class Command(BaseCommand):
         if action == ACTION_PROCESS:
             self.process(sleep, timeout, max_items)
         elif action == ACTION_CLEAN:
-            self.clean(options['leeway_expired'], sleep, timeout, max_items)
+            self.clean(options['leeway'], sleep, timeout, max_items)
         else:
             raise RuntimeError('Unsupported action')
 
