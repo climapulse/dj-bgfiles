@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, division, absolute_import
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.mail import send_mail
 from django.http import HttpResponse, QueryDict
@@ -93,7 +94,11 @@ class QueryDictCriteria(Criteria):
         :param file_request: the file request we want to restore the criteria from
         :return: QueryDict
         """
-        return QueryDict(query_string=file_request.criteria)
+        encoding = getattr(settings, 'BG_FILES_CRITERIA_ENCODING', None)
+        criteria = file_request.criteria
+        if encoding:
+            criteria = criteria.encode(encoding)
+        return QueryDict(query_string=criteria)
 
     @classmethod
     def http_query_dict(cls, http_request):
